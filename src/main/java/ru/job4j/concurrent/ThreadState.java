@@ -24,6 +24,6 @@ public class ThreadState {
         }
         System.out.println(first.getState());
         System.out.println(second.getState());
-        System.out.println("Работа завершена, название нити: " + Thread.currentThread().getName());
+        System.out.println("Работа завершена. Название нити: " + Thread.currentThread().getName());
     }
 }
