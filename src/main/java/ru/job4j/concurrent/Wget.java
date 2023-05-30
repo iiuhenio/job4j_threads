@@ -7,9 +7,8 @@ public class Wget {
                 () -> {
                     try {
                         System.out.println("Start loading ... ");
-                        Thread.sleep(3000);
                         for (int index = 0; index <= 100; index++) {
-                            Thread.sleep(20);
+                            Thread.sleep(1000);
                             System.out.print("\rLoading : " + index + "%");
                         }
                     } catch (InterruptedException e) {
