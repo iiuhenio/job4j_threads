@@ -2,13 +2,12 @@ package ru.job4j.concurrent;
 
 public class ConsoleProgress {
 
-    public ConsoleProgress() {
-    }
+    static Thread progress;
 
-    public static void progress() throws InterruptedException {
-        var process = new char[] {'-', '\\', '|', '/'};
+    public static void progress() {
+        var process = new char[]{'-', '\\', '|', '/'};
 
-        Thread thread = new Thread(
+        progress = new Thread(
                 () -> {
                     try {
                         while (!Thread.currentThread().isInterrupted()) {
@@ -22,20 +21,14 @@ public class ConsoleProgress {
                     }
                 }
         );
-        /*
-   Thread progress = new Thread(new ConsoleProgress());
-       progress.start();
-       Thread.sleep(5000); // симулируем выполнение параллельной задачи в течение 5 секунд.
-       progress.interrupt();
-       */
-        thread.start();
-        Thread.sleep(5000);
-        thread.interrupt();
-
     }
 
-public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
-ConsoleProgress.progress();
+        ConsoleProgress.progress();
+
+        progress.start();
+        Thread.sleep(5000);
+        progress.interrupt();
     }
 }
