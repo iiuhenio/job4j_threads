@@ -27,7 +27,7 @@ public class Wget implements Runnable {
             int downloadData = 0;
             while ((bytesRead = in.read(dataBuffer, 0, speed)) != -1) {
                 downloadData = downloadData + bytesRead;
-                if (downloadData == speed) {
+                if (downloadData >= speed) {
                     long finish = System.currentTimeMillis();
                     System.out.println("Конец скачивания: " + finish);
                     long operationTime = finish - start;
