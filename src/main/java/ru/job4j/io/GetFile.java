@@ -12,6 +12,7 @@ public class GetFile {
     }
 
     public String getContent(Predicate<Character> filter) throws IOException {
+
         StringBuilder output = new StringBuilder();
         try {
             InputStream i = new FileInputStream(file);
@@ -22,10 +23,21 @@ public class GetFile {
                     output.append((char) data);
                 }
             }
-            i.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return output.toString();
+    }
+
+    public void getWithoutPrefix() throws IOException {
+        GetFile gf = new GetFile(file);
+        Predicate<Character> check = x -> x < 0x80;
+        gf.getContent(check);
+    }
+
+    public void getWithPrefix() throws IOException {
+        GetFile gf = new GetFile(file);
+        Predicate<Character> check = x -> x > 0x80;
+        gf.getContent(check);
     }
 }
