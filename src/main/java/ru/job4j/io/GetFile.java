@@ -29,12 +29,12 @@ public class GetFile {
     }
 
     public String getWithoutPrefix() throws IOException {
-        Predicate<Character> check = x -> x < 0x80;
+        Predicate<Character> check = x -> true;
         return getContent(check);
     }
 
     public String getWithPrefix() throws IOException {
-        Predicate<Character> check = x -> x > 0x80;
+        Predicate<Character> check = x -> true;
         return getContent(check);
     }
 }
