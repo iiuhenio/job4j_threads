@@ -13,6 +13,10 @@ public class SimpleBlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     private int limit;
 
+    public SimpleBlockingQueue(int limit) {
+        this.limit = limit;
+    }
+
     public synchronized void offer(T value) throws InterruptedException {
         while (queue.size() == limit) {
             wait();
