@@ -3,40 +3,34 @@ package ru.job4j.buffer;
 import ru.job4j.SimpleBlockingQueue;
 
 public class ParallelSearch {
-
-    private static volatile boolean flag = true;
-
-    public synchronized static void main(String[] args) {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(1);
-        final Thread consumer = new Thread(
+    public static void main(String[] args) throws InterruptedException {
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
+        Thread consumer = new Thread(
                 () -> {
-                    while (flag) {
+                    while (!Thread.currentThread().isInterrupted()) {
                         try {
                             System.out.println(queue.poll());
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }
                 }
         );
         consumer.start();
-        new Thread(
+        Thread producer = new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
                         try {
                             queue.offer(index);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                     }
-                    flag = false;
                 }
-        ).start();
+        );
+        producer.start();
+        producer.join();
+        consumer.interrupt();
     }
 }
