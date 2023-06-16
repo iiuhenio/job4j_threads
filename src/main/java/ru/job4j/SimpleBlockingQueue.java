@@ -20,7 +20,8 @@ public class SimpleBlockingQueue<T> {
         if (queue.size() == 0) {
             notifyAll();
         }
-        queue.add((T) new SimpleBlockingQueue<Integer>());
+        queue.add(value);
+        notifyAll();
     }
 
     public synchronized T poll() throws InterruptedException {
@@ -30,6 +31,12 @@ public class SimpleBlockingQueue<T> {
         if (queue.size() == 1) {
             notifyAll();
         }
-        return queue.remove();
+        T result = queue.poll();
+        notifyAll();
+        return result;
+    }
+
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
