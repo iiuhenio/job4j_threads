@@ -21,9 +21,6 @@ public class SimpleBlockingQueue<T> {
         while (queue.size() == limit) {
             wait();
         }
-        if (queue.size() == 0) {
-            notifyAll();
-        }
         queue.add(value);
         notifyAll();
     }
@@ -31,9 +28,6 @@ public class SimpleBlockingQueue<T> {
     public synchronized T poll() throws InterruptedException {
         while (queue.size() == 0) {
             wait();
-        }
-        if (queue.size() == 1) {
-            notifyAll();
         }
         T result = queue.poll();
         notifyAll();
