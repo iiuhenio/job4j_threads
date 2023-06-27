@@ -13,8 +13,7 @@ public class SimpleBlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     private int limit;
 
-    public SimpleBlockingQueue(int limit) {
-        this.limit = limit;
+    public SimpleBlockingQueue() {
     }
 
     public synchronized void offer(T value) throws InterruptedException {
