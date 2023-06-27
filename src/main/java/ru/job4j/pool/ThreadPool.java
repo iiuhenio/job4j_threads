@@ -7,24 +7,16 @@ import java.util.List;
 
 public class ThreadPool {
 
-    int size = Runtime.getRuntime().availableProcessors();
+    private int size = Runtime.getRuntime().availableProcessors();
     private final List<Thread> threads = new LinkedList<>();
-    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(4);
+    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>();
 
-    public ThreadPool(int size) throws InterruptedException {
-        this.size = size;
+    public ThreadPool() throws InterruptedException {
         for (int i = 0; i < size; i++) {
             Thread thread = new Thread();
+            thread.start();
             threads.add(thread);
-        }
-        for (Thread thread : threads) {
-           thread.start();
-           tasks.poll();
-           if (tasks.isEmpty()) {
-               thread.wait();
-           } else {
-               notifyAll();
-           }
+            tasks.poll();
         }
     }
 
